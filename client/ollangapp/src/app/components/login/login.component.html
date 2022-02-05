@@ -7,7 +7,7 @@
             <div class="btns">
                 <button (click)="loginSubmit(login.value)" [disabled]="login.invalid">Login</button> <!-- (click)=> onclick event, 
                                                                         [disabled]=> login button being disabled if the inputs are empty-->
-                <button>Sign Up</button>
+                <button (click)="gotoSignUp()">Sign Up</button>
             </div>
         </form>
     </div>

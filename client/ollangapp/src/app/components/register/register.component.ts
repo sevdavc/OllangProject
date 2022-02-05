@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  register:any = FormGroup;
+  constructor(private fb:FormBuilder,private router:Router,private commServ:CommonService) { }
 
   ngOnInit(): void {
+    this.register=this.fb.group({
+      name:["",Validators.required],
+      email:["",Validators.compose([Validators.required,Validators.email])],//compose is for validating two different things
+      password:["",Validators.required] 
+    })
+  }
+
+  registerSubmit(data:any){
+    let dataToPass={
+      name:data.name,
+      email:data.email,
+      password:data.password
+    }
+    this.commServ.addUser(dataToPass).subscribe((data:any)=>{
+      console.log(data);
+    })
+    this.router.navigate(['login']);
+  }
+  gotoLogin(){
+    this.router.navigate(['login']);
   }
 
 }

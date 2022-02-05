@@ -1,5 +1,4 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
-import { Job } from '.';
+import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
 export class Client extends Entity {
@@ -9,7 +8,7 @@ export class Client extends Entity {
     generated: true,
   })
   id?: string;
-  
+
   @property({
     type: 'string',
     required: true,
@@ -19,6 +18,9 @@ export class Client extends Entity {
   @property({
     type: 'string',
     required: true,
+    index: {
+      unique: true
+  }
   })
   email: string;
 
