@@ -1,0 +1,41 @@
+.header {
+  height: 500px;
+  width: 100%;
+  background-color: aquamarine;
+}
+
+.image {
+  width: 10%;
+  float: left;
+  padding-top: 15px;
+}
+
+.headright {
+  float: right;
+  width: 18%;
+}
+
+#dropdownMenuButton1 {
+  width: 100px;
+  background-color: white;
+  border: 0;
+  color: black;
+  padding-top: 25px;
+  height: 60px;
+  width: 190px;
+  outline: none;
+  float: right;
+  padding-top: 40px;
+}
+
+#dropdownMenuButton1::focus {
+  border: 0;
+  outline: none;
+  box-shadow: none !important;
+}
+
+#userpic {
+  height: 70px;
+  float: left;
+  padding-top: 30px;
+}

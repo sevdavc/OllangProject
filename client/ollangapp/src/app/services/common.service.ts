@@ -10,8 +10,9 @@ export class CommonService {
 
   constructor(private http:HttpClient) { }
 
-  getUser(){
-    return this.http.get(this.baseUrl+"/clients")
+  getUser(data:any){
+    console.log(this.baseUrl+"/clients?filter[where][email]="+data)
+    return this.http.get(this.baseUrl+"/clients?filter[where][email]="+data)
   }
 
   addUser(data:any){

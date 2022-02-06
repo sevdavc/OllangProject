@@ -9,31 +9,27 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class LoginComponent implements OnInit {
   login:any = FormGroup; //Data of the form
-  users:any=[];
+  user:any;
 
   constructor(private fb:FormBuilder,private router:Router,private commserv:CommonService) { }
 
   ngOnInit(): void {
     //Identifying the form data 
     this.login=this.fb.group({
-      name:["",Validators.required],
-      email:["",Validators.compose([Validators.required,Validators.email])] //compose is for validating two different things
-    })
-    this.commserv.getUser().subscribe((data:any)=>{
-      this.users=data;
+      email:["",Validators.compose([Validators.required,Validators.email])], //compose is for validating two different things
+      password:["",Validators.required]
     })
   }
 
   //when we click to login button, logging the data of the form
   loginSubmit(data:any){
-    if(data.name){
-      this.users.forEach((item:any)=>{
-        if(item.name===data.name && item.email===data.email){
-          localStorage.setItem("IsLoggedIn","true");
-          this.router.navigate(['home']);
-        }
-        else{
-          localStorage.clear();
+    if(data.email){
+      this.commserv.getUser(data.email).subscribe((getdata:any)=>{
+        if(getdata.length!==0){
+          if(data.password === getdata[0].password){
+            localStorage.setItem("IsLoggedIn","True");
+            this.router.navigate(['home']);
+          }
         }
       })
     }
