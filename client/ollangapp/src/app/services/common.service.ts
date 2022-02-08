@@ -11,11 +11,19 @@ export class CommonService {
   constructor(private http:HttpClient) { }
 
   getUser(data:any){
-    console.log(this.baseUrl+"/clients?filter[where][email]="+data)
     return this.http.get(this.baseUrl+"/clients?filter[where][email]="+data)
   }
 
   addUser(data:any){
     return this.http.post(this.baseUrl+"/clients",data);
   }
+
+  getPassword(data:any){
+    return this.http.post(this.baseUrl+"/clients/password",data,{responseType: 'text'});
+  }
+
+  loginService(data:any){
+    return this.http.post(this.baseUrl+"/clients/login",data,{responseType: 'text'});
+  }
+
 }

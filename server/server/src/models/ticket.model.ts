@@ -1,7 +1,7 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
-export class Client extends Entity {
+export class Ticket extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -10,25 +10,30 @@ export class Client extends Entity {
   id?: string;
 
   @property({
-    type: 'string',
+    type: 'number',
     required: true,
   })
-  name: string;
-
-  @property({
-    type: 'string',
-    required: true,
-    index: {
-      unique: true
-  }
-  })
-  email: string;
+  price: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  password: string;
+  description: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  freelancerId: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  clientId: string;
+
+
 
   // Define well-known properties here
 
@@ -36,13 +41,13 @@ export class Client extends Entity {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
-  constructor(data?: Partial<Client>) {
+  constructor(data?: Partial<Ticket>) {
     super(data);
   }
 }
 
-export interface ClientRelations {
+export interface TicketRelations {
   // describe navigational properties here
 }
 
-export type ClientWithRelations = Client & ClientRelations;
+export type TicketWithRelations = Ticket & TicketRelations;

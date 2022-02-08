@@ -6,11 +6,10 @@
         <img src="https://cdn.iconscout.com/icon/free/png-256/user-1648810-1401302.png" alt=" " id="userpic">
         <div ngbDropdown class="dropdown">
             <button ngbDropdownToggle type="button" id="dropdownMenuButton1" aria-expanded="false">
-             USERNAME
+             {{user.name}}
             </button>
             <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
                 <li><a ngbDropdownItem href="#">Profile</a></li>
-                <li><a ngbDropdownItem href="#">My Works</a></li>
                 <li><a ngbDropdownItem href="#">Logout</a></li>
             </ul>
         </div>

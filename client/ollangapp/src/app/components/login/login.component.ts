@@ -23,13 +23,26 @@ export class LoginComponent implements OnInit {
 
   //when we click to login button, logging the data of the form
   loginSubmit(data:any){
-    if(data.email){
+    if(data.email && data.password){
       this.commserv.getUser(data.email).subscribe((getdata:any)=>{
         if(getdata.length!==0){
-          if(data.password === getdata[0].password){
-            localStorage.setItem("IsLoggedIn","True");
-            this.router.navigate(['home']);
+          const newData={
+            name:getdata[0].name,
+            email:getdata[0].email,
+            password:data.password,
+            salt:getdata[0].salt
           }
+          this.commserv.getPassword(newData).subscribe((password)=>{
+            if(password===getdata[0].password){
+              const id={
+                id:getdata[0].id
+              }
+              this.commserv.loginService(id).subscribe((token)=>{
+                localStorage.setItem("AccessToken",token);
+                this.router.navigate(['home']);
+              })
+            }
+          })
         }
       })
     }
