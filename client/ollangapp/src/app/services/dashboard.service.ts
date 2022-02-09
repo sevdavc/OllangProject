@@ -15,4 +15,8 @@ export class DashboardService {
   getUser(data:any){
     return this.http.post(this.baseUrl+"/clients/whoIam",data);
   }
+
+  getWorks(data:any){
+    
+  }
 }

@@ -38,4 +38,9 @@
   height: 70px;
   float: left;
   padding-top: 30px;
+  cursor: pointer;
+}
+
+#ollang {
+  cursor: pointer;
 }

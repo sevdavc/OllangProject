@@ -59,6 +59,7 @@ export class ClientControllerController {
       name: client.name,
       email:client.email,
       password:password,
+      jobs:[],
       salt:Salt,
     }
     return this.clientRepository.create(newClient);
@@ -239,11 +240,29 @@ export class ClientControllerController {
     const gettoken = await this.jwtService.verifyToken(token);
     const client=this.clientRepository.findById(gettoken.id, filter);
     const info={
+      id:(await client).id,
       name:(await client).name,
       email:(await client).email
     }
     return info;
   }
+
+  /*@get('/clients/jobs/{id}')
+  @response(200, {
+    description: 'Client model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Client, {includeRelations: true}),
+      },
+    },
+  })
+  async findByIdJobs(
+    @param.path.string('id') id: string,
+    @param.filter(Client, {exclude: 'where'}) filter?: FilterExcludingWhere<Client>
+  ): Promise<Job> {
+    const client=this.clientRepository.findById(id, filter);
+    return (await client).jobs;
+  }*/
 
 }
 

@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Freelancer, Job} from '.';
 
 @model({settings: {strict: false}})
 export class Ticket extends Entity {
@@ -21,17 +22,11 @@ export class Ticket extends Entity {
   })
   description: string;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  freelancerId: string;
+  @belongsTo(() => Job)
+  jobId: string;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  clientId: string;
+  @belongsTo(() => Freelancer)
+  freelancerId: string;
 
 
 

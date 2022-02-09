@@ -1,5 +1,5 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import { Client, Freelancer } from '.';
+import {Client} from '.';
 
 @model({settings: {strict: false}})
 export class Job extends Entity {
@@ -22,17 +22,14 @@ export class Job extends Entity {
   })
   description: string;
 
-  @belongsTo(() => Client)
-  clientId: string;
-
-  @belongsTo(() => Freelancer)
-  freelancerId: string;
-
   @property({
     type: 'boolean',
     required: true,
   })
   state?: boolean;
+
+  @belongsTo(() => Client)
+  customerId: string;
 
   // Define well-known properties here
 

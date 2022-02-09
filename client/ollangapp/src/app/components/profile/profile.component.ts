@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  user:any;
+  constructor(private dashserv:DashboardService) { }
 
   ngOnInit(): void {
+    this.user=this.dashserv.getUser(localStorage.getItem("AccessToken")).subscribe((data)=>{
+      this.user=data;
+    });
   }
 
 }
