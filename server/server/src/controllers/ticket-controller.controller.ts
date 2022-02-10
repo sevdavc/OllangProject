@@ -1,3 +1,6 @@
+import {authenticate, TokenService} from '@loopback/authentication';
+import {TokenServiceBindings} from '@loopback/authentication-jwt';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -18,8 +21,11 @@ export class TicketControllerController {
   constructor(
     @repository(TicketRepository)
     public ticketRepository : TicketRepository,
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
   ) {}
 
+  @authenticate.skip()
   @post('/tickets')
   @response(200, {
     description: 'Ticket model instance',
@@ -29,16 +35,20 @@ export class TicketControllerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Ticket, {
-            title: 'NewTicket',
-            exclude: ['id'],
-          }),
+          schema: Object
         },
       },
     })
-    ticket: Omit<Ticket, 'id'>,
+    ticket: Ticket
   ): Promise<Ticket> {
-    return this.ticketRepository.create(ticket);
+    const verified=await this.jwtService.verifyToken(ticket.freelancerId);
+    const newTicket={
+      price:ticket.price,
+      description:ticket.description,
+      jobId:ticket.jobId,
+      freelancerId:verified.id
+    }
+    return this.ticketRepository.create(newTicket);
   }
 
   @get('/tickets/count')
@@ -140,5 +150,21 @@ export class TicketControllerController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.ticketRepository.deleteById(id);
+  }
+
+  @get('/tickets/jobs/{id}')
+  @response(200, {
+    description: 'Ticket model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Ticket, {includeRelations: true}),
+      },
+    },
+  })
+  async findByJobId(
+    @param.path.string('id') id: string,
+  ): Promise<Ticket[]> {
+    const filter={where: {jobId:id}}
+    return this.ticketRepository.find(filter);
   }
 }

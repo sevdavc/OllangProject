@@ -11,6 +11,11 @@ import {HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreatejobComponent } from './components/createjob/createjob.component';
+import { TicketsComponent } from './components/tickets/tickets.component';
+import { FLoginComponent } from './components/f-login/f-login.component';
+import { FRegisterComponent } from './components/f-register/f-register.component';
+import { FDashboardComponent } from './components/f-dashboard/f-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,12 @@ import { ProfileComponent } from './components/profile/profile.component';
     RegisterComponent,
     DashboardComponent,
     HeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreatejobComponent,
+    TicketsComponent,
+    FLoginComponent,
+    FRegisterComponent,
+    FDashboardComponent
   ],
   imports: [
     BrowserModule,

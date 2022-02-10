@@ -13,9 +13,17 @@ export class HeaderComponent implements OnInit {
   constructor(private dashserv:DashboardService,private router:Router) { }
 
   ngOnInit(): void {
-    this.user=this.dashserv.getUser(localStorage.getItem("AccessToken")).subscribe((data)=>{
-      this.user=data;
-    });
+    if(this.router.url==="/fhome"){
+      this.dashserv.getfUser(localStorage.getItem("AccessToken")).subscribe((fdata)=>{
+        this.user=fdata;
+      })
+    }
+    else{
+      this.dashserv.getUser(localStorage.getItem("AccessToken")).subscribe((data)=>{
+        this.user=data;
+      });
+    }
+    
   }
 
   goToHome(){

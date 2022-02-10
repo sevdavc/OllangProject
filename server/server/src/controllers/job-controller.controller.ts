@@ -1,21 +1,18 @@
+import {TokenService} from '@loopback/authentication';
+import {TokenServiceBindings} from '@loopback/authentication-jwt';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Job} from '../models';
 import {JobRepository} from '../repositories';
@@ -24,9 +21,11 @@ export class JobControllerController {
   constructor(
     @repository(JobRepository)
     public jobRepository : JobRepository,
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService
   ) {}
 
-  @post('/jobs')
+  @post('/jobs/{token}')
   @response(200, {
     description: 'Job model instance',
     content: {'application/json': {schema: getModelSchemaRef(Job)}},
@@ -35,16 +34,21 @@ export class JobControllerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Job, {
-            title: 'NewJob',
-            exclude: ['id'],
-          }),
+          schema:Object
         },
       },
     })
-    job: Omit<Job, 'id'>,
+    job: Job,
+    @param.path.string('token') token: string,
   ): Promise<Job> {
-    return this.jobRepository.create(job);
+    const verifiedToken=await this.jwtService.verifyToken(token);
+    const newJob={
+      name:job.name,
+      description:job.description,
+      clientId:verifiedToken.id,
+      state:true
+    }
+    return this.jobRepository.create(newJob);
   }
 
   @get('/jobs/count')
@@ -120,13 +124,24 @@ export class JobControllerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Job, {partial: true}),
+          schema: Object,
         },
       },
     })
     job: Job,
   ): Promise<void> {
-    await this.jobRepository.updateById(id, job);
+    const filter={where: {id:id}}
+    const idjob=this.jobRepository.find(filter);
+    const freelancer=await this.jwtService.verifyToken(job.freelancerId);
+    const newJob={
+      id:(await idjob)[0].id,
+      name:(await idjob)[0].name,
+      description:(await idjob)[0].description,
+      clientId:(await idjob)[0].clientId,
+      state:false,
+      freelancerId:freelancer.id,
+    }
+    await this.jobRepository.updateById(id, newJob);
   }
 
   @put('/jobs/{id}')
@@ -146,5 +161,29 @@ export class JobControllerController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.jobRepository.deleteById(id);
+  }
+
+  @get('/jobs/client/{token}')
+  @response(200, {
+    description: 'Client job filter',
+    content: {'application/json': {schema: getModelSchemaRef(Job, {partial: true})}},
+  })
+  async getclientjobs(
+    @param.path.string('token') token: string,
+  ): Promise<Job[]> {
+    const verifiedToken = await this.jwtService.verifyToken(token);
+    const filter={where: {clientId:verifiedToken.id}}
+    return this.jobRepository.find(filter);
+  }
+
+  @get('/jobs/freelancer')
+  @response(200, {
+    description: 'Client job filter',
+    content: {'application/json': {schema: getModelSchemaRef(Job, {partial: true})}},
+  })
+  async getfreelancejobs(
+  ): Promise<Job[]> {
+    const filter={where: {state:true}}
+    return this.jobRepository.find(filter);
   }
 }

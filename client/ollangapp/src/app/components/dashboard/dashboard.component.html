@@ -3,19 +3,32 @@
 </div>
 
 <div class="dashboardpage">
-    <div><button type="button" id="createbutton">Create New Job</button></div>
-    <div class="main">
-        <div class="element">
-            <h3>NAME</h3>
-            <h5>Description</h5>
-            <button type="button" id="ticketbutton">Tickets</button>
-        </div>
-        <div class="element">
-            <h3>NAME</h3>
-            <h5>Description</h5>
-            <button type="button" id="ticketbutton">Tickets</button>
+    <div class="left">
+        <div class="buttondiv"><button type="button" id="createbutton" (click)="goToCreateJob()">Create New Job</button></div>
+        <div class="main">
+            <div *ngFor="let item of jobs">
+                <div class="element">
+                    <h4 *ngIf="item.state===true" style="color: rgb(79, 197, 79);">AVAILABLE</h4>
+                    <h4 *ngIf="item.state===false" style="color: red;">TAKEN</h4>
+                    <h3>{{item.name}}</h3>
+                    <h5>{{item.description}}</h5>
+                    <button *ngIf="item.state===true" type="button" id="ticketbutton" (click)="goToTicket(item.id)">Tickets</button>
+                </div>
+            </div>
         </div>
     </div>
+        <div class="ticketpart" *ngIf="tickets">
+            <div *ngFor="let item of tickets">
+                <div class="tickets">
+                    <h4>Price: {{item.price}}</h4>
+                    <h5>{{item.description}}</h5>
+                    <button type="button" id="acceptticket" (click)="acceptTicket(item.jobId)">Accept Ticket</button>
+                </div>
+            </div>
+        </div>
+   
+    
+    
 </div>
 
 

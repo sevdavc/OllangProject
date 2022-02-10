@@ -1,22 +1,23 @@
+import {TokenService} from '@loopback/authentication';
+import {
+  MyUserService, TokenServiceBindings, User, UserServiceBindings
+} from '@loopback/authentication-jwt';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
+import {SecurityBindings, UserProfile} from '@loopback/security';
+import {genSalt, hash} from 'bcryptjs';
 import {Freelancer} from '../models';
 import {FreelancerRepository} from '../repositories';
 
@@ -24,11 +25,17 @@ export class FreelancerControllerController {
   constructor(
     @repository(FreelancerRepository)
     public freelancerRepository : FreelancerRepository,
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
+    @inject(SecurityBindings.USER, {optional: true})
+    public user: UserProfile,
   ) {}
 
   @post('/freelancers')
   @response(200, {
-    description: 'Freelancer model instance',
+    description: 'Client model instance',
     content: {'application/json': {schema: getModelSchemaRef(Freelancer)}},
   })
   async create(
@@ -36,17 +43,25 @@ export class FreelancerControllerController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(Freelancer, {
-            title: 'NewFreelancer',
+            title: 'NewClient',
             exclude: ['id'],
           }),
         },
       },
     })
-    freelancer: Omit<Freelancer, 'id'>,
+    client: Omit<Freelancer, 'id'>,
   ): Promise<Freelancer> {
-    return this.freelancerRepository.create(freelancer);
+    const Salt=await genSalt();
+    const password = await hash(client.password, Salt);
+    const newClient={
+      name: client.name,
+      email:client.email,
+      password:password,
+      jobs:[],
+      salt:Salt,
+    }
+    return this.freelancerRepository.create(newClient);
   }
-
   @get('/freelancers/count')
   @response(200, {
     description: 'Freelancer model count',
@@ -147,4 +162,85 @@ export class FreelancerControllerController {
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.freelancerRepository.deleteById(id);
   }
+
+  @post('/freelancers/whoIam')
+  @response(200, {
+    description: 'Freelancer model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Freelancer)}},
+  })
+  async verifyingToken(
+    @requestBody({
+      content: {
+        'text/plain':{}
+      },
+    })
+    token: string,
+    @param.filter(Freelancer, {exclude: 'where'}) filter?: FilterExcludingWhere<Freelancer>
+  ): Promise<Object> {
+    const gettoken = await this.jwtService.verifyToken(token);
+    const client=this.freelancerRepository.findById(gettoken.id, filter);
+    const info={
+      id:(await client).id,
+      name:(await client).name,
+      email:(await client).email
+    }
+    return info;
+  }
+
+  @post('/freelancers/password')
+  @response(200, {
+    description: 'Client model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Freelancer)}},
+  })
+  async generatePassword(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Freelancer, {
+            title: 'NewClient',
+            exclude: ['id'],
+          }),
+        },
+      },
+    })
+    client: Omit<Freelancer, 'id'>,
+  ): Promise<String> {
+
+    const password = await hash(client.password, client.salt);
+    return password;
+  }
+
+  @post('/freelancers/login', {
+    responses: {
+      '200': {
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  async login(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Freelancer, {partial: true}),
+        },
+      },
+    }) credentials: User,
+  ): Promise<String> {
+    const userProfile = this.userService.convertToUserProfile(credentials);
+    const token = await this.jwtService.generateToken(userProfile);
+    return token;
+  }
+
 }

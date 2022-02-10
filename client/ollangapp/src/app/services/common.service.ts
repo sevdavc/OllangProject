@@ -26,4 +26,24 @@ export class CommonService {
     return this.http.post(this.baseUrl+"/clients/login",data,{responseType: 'text'});
   }
 
+  sendJob(token:any,data:any){
+    console.log(data);
+    return this.http.post(this.baseUrl+"/jobs/"+token,data);
+  }
+
+  getfUser(data:any){
+    return this.http.get(this.baseUrl+"/freelancers?filter[where][email]="+data)
+  }
+
+  getfPassword(data:any){
+    return this.http.post(this.baseUrl+"/freelancers/password",data,{responseType: 'text'});
+  }
+
+  loginfService(data:any){
+    return this.http.post(this.baseUrl+"/freelancers/login",data,{responseType: 'text'});
+  }
+
+  addfUser(data:any){
+    return this.http.post(this.baseUrl+"/freelancers",data);
+  }
 }

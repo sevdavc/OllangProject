@@ -1,0 +1,15 @@
+<div class="wrapper">
+    <div class="block">
+        <form [formGroup]="register">
+            <h2>REGISTER</h2>
+            <input type="text" placeholder="Enter Name" class="inp" formControlName="name">
+            <input type="text" placeholder="Enter Email" class="inp" formControlName="email">
+            <input type="text" placeholder="Enter Password" class="inp" formControlName="password">
+            <div class="btns">
+                <button (click)="registerSubmit(register.value)">SIGNUP</button> <!-- (click)=> onclick event, 
+                                                                        [disabled]=> login button being disabled if the inputs are empty-->
+                <button (click)="gotoLogin()">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

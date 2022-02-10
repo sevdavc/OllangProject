@@ -1,0 +1,31 @@
+<div class="container">
+    <app-header></app-header>
+</div>
+
+<div class="dashboardpage">
+    <div class="left">
+        <div class="main">
+            <div *ngFor="let item of jobs">
+                <div class="element">
+                    <h4 *ngIf="item.state===true" style="color: rgb(79, 197, 79);">AVAILABLE</h4>
+                    <h3>{{item.name}}</h3>
+                    <h5>{{item.description}}</h5>
+                    <button type="button" id="ticketbutton" (click)="createTicket(item.id)">Create a Ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="ticketpart" *ngIf="clicked===true">
+            <form [formGroup]="ticket">
+                <input type="text" placeholder="Enter Price" class="inp" formControlName="price">
+                <textarea type="password" placeholder="Enter Description" class="inp2" formControlName="description"></textarea>
+                <div class="btns">
+                    <button type="button" (click)="sendTicket(ticket.value)">Sign Up</button>
+                </div>
+            </form>
+        </div>
+   
+    
+    
+</div>
+

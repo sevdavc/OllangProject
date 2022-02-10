@@ -1,0 +1,14 @@
+<div class="container">
+    <app-header></app-header>
+</div>
+
+<div class="wrapper">
+    <div class="block">
+        <form [formGroup]="newjob">
+            <h2 style="color: black;">CREATE NEW JOB</h2>
+            <input type="text" placeholder="Enter title" class="inp" formControlName="name">
+            <textarea type="text" placeholder="Enter description" class="inp2" formControlName="description"></textarea>
+            <button type="button" (click)="jobSubmit(newjob.value)" >Create New Job</button>
+        </form>
+    </div>
+</div>

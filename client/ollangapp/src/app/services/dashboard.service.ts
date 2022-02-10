@@ -16,7 +16,27 @@ export class DashboardService {
     return this.http.post(this.baseUrl+"/clients/whoIam",data);
   }
 
-  getWorks(data:any){
-    
+  getJobs(data:any){
+    return this.http.get(this.baseUrl+"/jobs/client/"+data);
+  }
+
+  getTickets(data:any){
+    return this.http.get(this.baseUrl+"/tickets/jobs/"+data);
+  }
+
+  getTrueJobs(data:any){
+    return this.http.get(this.baseUrl+"/jobs/freelancer");
+  }
+
+  getfUser(data:any){
+    return this.http.post(this.baseUrl+"/freelancers/whoIam",data);
+  }
+
+  sendTicket(data:any){
+    return this.http.post(this.baseUrl+"/tickets",data);
+  }
+
+  stateFalse(id:any,data:any){
+    return this.http.patch(this.baseUrl+"/jobs/"+id,data);
   }
 }

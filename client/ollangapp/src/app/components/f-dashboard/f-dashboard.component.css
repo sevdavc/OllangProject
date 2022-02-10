@@ -14,9 +14,9 @@
   display: flex;
   flex-direction: column;
   /*overflow-y: overlay;
-  height: 478px;
-  max-height: 500px;
-  min-height: 500px;*/
+    height: 478px;
+    max-height: 500px;
+    min-height: 500px;*/
 }
 
 .buttondiv {
@@ -42,14 +42,37 @@
 #ticketbutton {
   border-radius: 10px;
   background-color: rgb(16, 53, 26);
+  width: 30%;
 }
 
 .ticketpart {
   width: 35%;
   background-color: rgb(224, 255, 237);
   float: right;
-  margin-top: 50px;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticketpart form {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.inp {
+  margin: 10px;
+  width: 80%;
+  height: 50px;
+}
+
+.inp2 {
+  margin: 10px;
+  height: 300px;
+  width: 80%;
 }
 
 .left {

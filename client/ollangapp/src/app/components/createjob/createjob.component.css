@@ -1,0 +1,60 @@
+.container {
+  height: 200px;
+}
+
+.block {
+  justify-content: center;
+  align-items: center;
+}
+
+.block form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.inp {
+  width: 85%;
+  padding: 10px 15px;
+  margin: 10px;
+}
+
+.inp2 {
+  width: 85%;
+  padding: 10px 15px;
+  margin: 10px;
+  height: 300px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+button {
+  padding: 15px 10px;
+  background-color: rgb(13, 105, 13);
+  margin-right: 5px;
+  color: white;
+  font-weight: 600;
+  border: none;
+  width: 200px;
+  cursor: pointer;
+}
+
+.block {
+  width: 320px;
+  background: white;
+  height: 350px;
+  display: flex;
+}
+
+form h2 {
+  color: white;
+  font-family: sans-serif;
+  font-weight: 600;
+}

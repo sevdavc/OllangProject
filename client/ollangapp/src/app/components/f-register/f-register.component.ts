@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-f-register',
+  templateUrl: './f-register.component.html',
+  styleUrls: ['./f-register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class FRegisterComponent implements OnInit {
 
   register:any = FormGroup;
+  
   constructor(private fb:FormBuilder,private router:Router,private commServ:CommonService) { }
 
   ngOnInit(): void {
@@ -30,13 +31,13 @@ export class RegisterComponent implements OnInit {
       email:data.email,
       password:data.password
     }
-    this.commServ.addUser(dataToPass).subscribe((data:any)=>{
-      this.router.navigate(['client-login']);
+    this.commServ.addfUser(dataToPass).subscribe((data:any)=>{
+      this.router.navigate(['freelancer-login']);
     })
     
   }
-  gotoLogin(){
-    this.router.navigate(['client-login']);
-  }
 
+  gotoLogin(){
+    this.router.navigate(['freelancer-login']);
+  }
 }
