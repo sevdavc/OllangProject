@@ -25,6 +25,7 @@ export class TicketControllerController {
     public jwtService: TokenService,
   ) {}
 
+  //Creating a new ticket
   @authenticate.skip()
   @post('/tickets')
   @response(200, {
@@ -152,6 +153,7 @@ export class TicketControllerController {
     await this.ticketRepository.deleteById(id);
   }
 
+  //Gets the tickets of the job
   @get('/tickets/jobs/{id}')
   @response(200, {
     description: 'Ticket model instance',

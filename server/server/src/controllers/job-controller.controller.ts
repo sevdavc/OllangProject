@@ -25,6 +25,7 @@ export class JobControllerController {
     public jwtService: TokenService
   ) {}
 
+  //Creates a new job
   @post('/jobs/{token}')
   @response(200, {
     description: 'Job model instance',
@@ -115,6 +116,7 @@ export class JobControllerController {
     return this.jobRepository.findById(id, filter);
   }
 
+  //Updating a jobs attributes (this one is for to assign false to the value of the status of the job)
   @patch('/jobs/{id}')
   @response(204, {
     description: 'Job PATCH success',
@@ -163,6 +165,7 @@ export class JobControllerController {
     await this.jobRepository.deleteById(id);
   }
 
+  //Returns the client's jobs (for client dashboard)
   @get('/jobs/client/{token}')
   @response(200, {
     description: 'Client job filter',
@@ -176,6 +179,7 @@ export class JobControllerController {
     return this.jobRepository.find(filter);
   }
 
+  //returns jobs with status true (for freelancer dashboard)
   @get('/jobs/freelancer')
   @response(200, {
     description: 'Client job filter',

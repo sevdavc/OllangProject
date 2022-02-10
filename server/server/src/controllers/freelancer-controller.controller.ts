@@ -33,6 +33,7 @@ export class FreelancerControllerController {
     public user: UserProfile,
   ) {}
 
+  //Creates a new freelancer user
   @post('/freelancers')
   @response(200, {
     description: 'Client model instance',
@@ -163,6 +164,7 @@ export class FreelancerControllerController {
     await this.freelancerRepository.deleteById(id);
   }
 
+  //Returns the freelancers information
   @post('/freelancers/whoIam')
   @response(200, {
     description: 'Freelancer model instance',
@@ -187,6 +189,7 @@ export class FreelancerControllerController {
     return info;
   }
 
+  //Returns the crypted password
   @post('/freelancers/password')
   @response(200, {
     description: 'Client model instance',
@@ -210,6 +213,7 @@ export class FreelancerControllerController {
     return password;
   }
 
+  //Returns the access token
   @post('/freelancers/login', {
     responses: {
       '200': {

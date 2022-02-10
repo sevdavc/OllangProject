@@ -34,6 +34,7 @@ export class ClientControllerController {
     public user: UserProfile,
   ) {}
 
+  //Creating a new Client user
   @authenticate.skip()
   @post('/clients')
   @response(200, {
@@ -166,6 +167,7 @@ export class ClientControllerController {
     await this.clientRepository.deleteById(id);
   }
 
+  //Returns the access token
   @post('/clients/login', {
     responses: {
       '200': {
@@ -200,6 +202,7 @@ export class ClientControllerController {
   }
 
 
+  //Returns the crypted password
   @post('/clients/password')
   @response(200, {
     description: 'Client model instance',
@@ -223,6 +226,7 @@ export class ClientControllerController {
     return password;
   }
 
+  //Returns the client user's information
   @post('/clients/whoIam')
   @response(200, {
     description: 'Client model instance',
