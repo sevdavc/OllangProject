@@ -25,6 +25,7 @@ export class FRegisterComponent implements OnInit {
     })
   }
 
+  //Registering the user
   registerSubmit(data:any){
     let dataToPass={
       name:data.name,
@@ -37,6 +38,7 @@ export class FRegisterComponent implements OnInit {
     
   }
 
+  //Routing to freelancer-login
   gotoLogin(){
     this.router.navigate(['freelancer-login']);
   }

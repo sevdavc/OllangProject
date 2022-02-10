@@ -23,6 +23,7 @@ export class FLoginComponent implements OnInit {
     })
   }
 
+  //Checking if the user is in the db
   loginSubmit(data:any){
     if(data.email && data.password){
       this.commserv.getfUser(data.email).subscribe((getdata:any)=>{

@@ -12,9 +12,11 @@ export class ProfileComponent implements OnInit {
   constructor(private dashserv:DashboardService) { }
 
   ngOnInit(): void {
+    //Getting the users information
     this.user=this.dashserv.getUser(localStorage.getItem("AccessToken")).subscribe((data)=>{
       this.user=data;
     });
+    
   }
 
 }

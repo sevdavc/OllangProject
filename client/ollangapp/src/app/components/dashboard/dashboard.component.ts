@@ -18,16 +18,19 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  //Route for creating a job
   goToCreateJob(){
     this.router.navigate(["createjob"])
   }
 
+  //Getting the ticket list of the job
   goToTicket(data:any){
     this.dashserv.getTickets(data).subscribe((get)=>{
       this.tickets=get;
     })
   }
 
+  //Accepting the ticket and giving the job to a freelancer
   acceptTicket(id:any){
     const data={
       freelancerId:localStorage.getItem("AccessToken")

@@ -21,6 +21,7 @@ export class CreatejobComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Sending the job to db
   jobSubmit(data:any){
     this.commserv.sendJob(localStorage.getItem("AccessToken"),data).subscribe((get)=>{
       this.router.navigate(['chome']);

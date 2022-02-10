@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   constructor(private dashserv:DashboardService,private router:Router) { }
 
   ngOnInit(): void {
+    //Fetching the users name
     if(this.router.url==="/fhome"){
       this.dashserv.getfUser(localStorage.getItem("AccessToken")).subscribe((fdata)=>{
         this.user=fdata;
@@ -26,14 +27,17 @@ export class HeaderComponent implements OnInit {
     
   }
 
+  //Routing to chome
   goToHome(){
-    this.router.navigate(['home']);
+    this.router.navigate(['chome']);
   }
 
+  //Routing to profile
   goToProfile(){
     this.router.navigate(['profile']);
   }
 
+  //Logout, clearing the access token from local storage
   logout(){
     localStorage.clear();
   }

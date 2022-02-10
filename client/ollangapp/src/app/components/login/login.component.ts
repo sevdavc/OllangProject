@@ -51,10 +51,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  //Going to the client-register route
   gotoSignUp(){
     this.router.navigate(['client-register']); //when we click to the sign up button, it directs us to register page
   }
 
+  //Going to the freelancer-login route
   goToFreelancerLogin(){
     this.router.navigate(['freelancer-login']);
   }

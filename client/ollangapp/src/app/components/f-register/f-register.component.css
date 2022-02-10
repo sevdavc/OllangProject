@@ -1,0 +1,10 @@
+.block {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.block form {
+  margin-left: 20%;
+}

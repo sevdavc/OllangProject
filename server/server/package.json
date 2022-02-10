@@ -53,6 +53,7 @@
     "@loopback/authentication-jwt": "^0.10.1",
     "@loopback/boot": "^4.0.1",
     "@loopback/core": "^3.0.1",
+    "@loopback/cron": "^0.7.1",
     "@loopback/repository": "^4.0.1",
     "@loopback/rest": "^11.0.1",
     "@loopback/rest-explorer": "^4.0.1",
